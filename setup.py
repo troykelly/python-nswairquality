@@ -14,7 +14,7 @@ setup_args = dict(
     url = 'https://github.com/troykelly/python-nswairquality',
 
     description = 'NSW Air Quality Scraper',
-    long_description = open('README.rst').read(),
+    long_description = open('README.md').read(),
     license = 'Creative Commons Attribution-Noncommercial-Share Alike license',
 
     package_dir = {'': 'src'},
