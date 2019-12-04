@@ -8,7 +8,7 @@ for cmd in ('egg_info', 'develop'):
 
 setup_args = dict(
     name = 'nswairquality',
-    version = '0.0.1',
+    version = '0.0.3',
     author = 'Troy Kelly',
     author_email = 'troy@troykelly.com',
     url = 'https://github.com/troykelly/python-nswairquality',

@@ -15,6 +15,8 @@ class NSWAirQuality(object):
         response = requests.get(self._resourceURL)
         if not (response.status_code >= 200 and response.status_code <= 299):
             return
+        tzinfo=tz.gettz('Australia/Sydney')
+        self._retrieved = datetime.datetime.now(tz=tzinfo)
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         published_date_href = soup.find('td', attrs={'class':'date'}).a['href']
@@ -22,7 +24,6 @@ class NSWAirQuality(object):
             published_date_regex = re.compile('date=(?P<year>\d\d\d\d)(?P<month>\d\d)(?P<day>\d\d)(?P<hour>\d\d)(?P<minute>\d\d)(?P<second>\d\d)(?:\D|$)',re.MULTILINE | re.IGNORECASE)
             published_date_data = published_date_regex.search(published_date_href)
             if published_date_data:
-                tzinfo=tz.gettz('Australia/Sydney')
                 dt = datetime.datetime(year=int(published_date_data.group('year')), month=int(published_date_data.group('month')), day=int(published_date_data.group('day')), hour=int(published_date_data.group('hour')), minute=int(published_date_data.group('minute')), second=int(published_date_data.group('second')),tzinfo=tzinfo)
                 if dt:
                     self._published = dt
@@ -87,8 +88,10 @@ class NSWAirQuality(object):
                 data["from_url"] = getattr(self, "_resourceURL")
                 continue
             if region == "_published":
-                tzinfo=tz.gettz('UTC')
                 data["published"] = int(getattr(self, "_published").timestamp())
+                continue
+            if region == "_retrieved":
+                data["retrieved"] = int(getattr(self, "_retrieved").timestamp())
                 continue
             if not hasattr(data["regions"], region):
                 data["regions"][region] = {}
