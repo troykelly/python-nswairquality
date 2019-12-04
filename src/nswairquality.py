@@ -61,7 +61,6 @@ class NSWAirQuality(object):
                         sensors[index] += ' ' + item
             headerrowcount += 1
         region = None;
-
         for location_data in data:
             if len(location_data) > len(sensors):
                 if(len(location_data) == len(sensors) + 2):
@@ -114,7 +113,7 @@ class SensorData(object):
     """
     def __init__(self, sensors, data=None):
         for index,item in enumerate(sensors):
-            setattr(self, item, float(data[index]) if data[index] else None)
+            setattr(self, item.split("\n")[0], float(data[index]) if data[index] else None)
 
 class Sites(object):
     pass
